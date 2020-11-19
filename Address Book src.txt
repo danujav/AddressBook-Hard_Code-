@@ -1,0 +1,279 @@
+import javax.swing.border.TitledBorder;
+import java.awt.event.*;  
+import javax.swing.*;
+import java.awt.*;  
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.*;
+import javax.swing.table.*; 
+import javax.swing.table.TableRowSorter;
+import javax.swing.table.TableModel;
+
+
+public class AddressBook {
+	
+	public static void main (String args[]) {
+		
+		JFrame frame = new JFrame();
+		JTable table = new JTable();
+		     
+        frame.setSize(740, 700);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+		frame.setTitle("Address Book");
+		
+		Object[] columns = {"First Name", "Last Name", "Address", "Contact", "Email"};	
+		DefaultTableModel model = new DefaultTableModel();
+		model.setColumnIdentifiers(columns);
+		
+		table.setModel(model);
+		
+		frame.setLayout(null);
+		
+		JTextField txtFName = new JTextField();
+		JTextField txtLName = new JTextField();
+		JTextField txtAddress = new JTextField();
+		JTextField txtContact = new JTextField();
+		JTextField txtEmail = new JTextField();
+		
+		JButton add = new JButton("Add");
+		JButton delete = new JButton("Delete");
+		JButton update = new JButton("Update");
+		JButton search = new JButton("Search");
+		JButton exit = new JButton("Exit");
+		
+		JLabel title = new JLabel("ADDRESS BOOK :)");
+		JLabel fName = new JLabel("First Name");
+		JLabel lName = new JLabel("Last Name");
+		JLabel address = new JLabel("Address");
+		JLabel contact = new JLabel("Contact");
+		JLabel email = new JLabel("Email");
+		
+		title.setFont(new Font("Calibri", Font.BOLD + Font.ITALIC, 25));
+		title.setBounds(230, 20, 200, 30);
+		frame.add("North", title);
+		
+		Font f = new Font("Arial", Font.BOLD, 15);
+		
+		fName.setFont(f);
+		fName.setBounds(10, 53, 120, 60);
+		frame.add("West", fName);
+		
+		txtFName.setBounds(105, 70, 200, 26);
+		frame.add(txtFName);
+		
+		lName.setFont(f);
+		lName.setBounds(350, 53, 120, 60);
+		frame.add(lName);
+		
+		txtLName.setBounds(450, 70, 200, 28);
+		frame.add("East", txtLName);
+		
+		address.setFont(f);
+		address.setBounds(10, 105, 120, 60);
+		frame.add("West", address);
+		
+		txtAddress.setBounds(103, 120, 549, 28 );
+		frame.add("Center", txtAddress);
+		
+		contact.setFont(f);
+		contact.setBounds(10, 158, 120, 60);
+		frame.add("West", contact);
+		
+		txtContact.setBounds(103, 175, 200, 25);
+		frame.add("Center", txtContact);
+		
+	
+		email.setFont(f);	
+		email.setBounds(10, 210, 120, 60);
+		frame.add("Center", email);
+		
+		txtEmail.setBounds(103, 230, 200, 25);
+		frame.add("Center", txtEmail);
+		
+		add.setFont(f);
+		add.setBounds(60, 300, 100, 25);
+		frame.add("South", add);
+		
+		delete.setFont(f);
+		delete.setBounds(500, 350, 100, 25);
+		frame.add("South", delete);
+		
+		update.setFont(f);
+		update.setBounds(500, 300, 100, 25);
+		frame.add("South", update);
+		
+		search.setFont(f);
+		search.setBounds(280, 330, 100, 25);
+		
+		JButton view = new JButton("View");
+		view.setFont(f);	
+		view.setBounds(60, 350, 100, 25);	
+		
+		frame.add("West", view);
+		frame.add(search);
+		
+		exit.setFont(f);
+		exit.setBounds(608, 565, 100, 25);
+		frame.add(exit);
+		
+		JTextField txtSearch = new JTextField();
+		txtSearch.setBounds(180, 300, 300, 25);
+		frame.add(txtSearch);
+		
+			
+	    JScrollPane pane = new JScrollPane(table);
+        pane.setBounds(10, 400,700, 150);	
+        frame.add(pane);
+        
+        JLabel developerName = new JLabel("Developed by: Danuja Vimukhti Deshan");
+		developerName.setFont(new Font("Arial", Font.PLAIN, 10));
+		
+		JPanel developerPanel = new JPanel();
+		developerPanel.setLayout(new GridLayout(1, 1));
+		String panelTitle = "version 1.0.0";
+		TitledBorder border3 = BorderFactory.createTitledBorder("version 1.0.0");
+		developerName.setBorder(border3);
+		
+		developerPanel.add(developerName);
+		
+		developerPanel.setBounds(10, 565, 300, 80);
+		
+		frame.add(developerPanel);
+        
+		Object [] row = new Object[5];
+        
+         add.addActionListener(new ActionListener(){
+
+            public void actionPerformed(ActionEvent e) {
+				String firstName = txtFName.getText();
+				
+				if(firstName.length()>0){
+				
+                row[0] = txtFName.getText();
+                row[1] = txtLName.getText();
+                row[2] = txtAddress.getText();
+                row[3] = txtContact.getText();
+                row[4] = txtEmail.getText();
+                
+           
+                JOptionPane.showMessageDialog(null, "Added Sucessfully!");
+                model.addRow(row);	    // add row to the model
+                txtFName.setText("");
+				txtLName.setText("");
+				txtAddress.setText("");
+				txtContact.setText("");
+				txtEmail.setText("");
+				
+				}else{
+					JOptionPane.showMessageDialog(null, "Empty Field");
+				}
+			}
+        });
+        
+            // get selected row data From table to textfields 
+        table.addMouseListener(new MouseAdapter(){
+        
+        public void mouseClicked(MouseEvent e){
+            
+            int i = table.getSelectedRow();
+            
+            txtFName.setText(model.getValueAt(i, 0).toString());
+            txtLName.setText(model.getValueAt(i, 1).toString());
+            txtAddress.setText(model.getValueAt(i, 2).toString());
+            txtContact.setText(model.getValueAt(i, 3).toString());
+            txtEmail.setText(model.getValueAt(i, 4).toString());
+        }
+        });
+        
+              update.addActionListener(new ActionListener(){
+					
+				public void actionPerformed(ActionEvent e) {
+             
+                // i = the index of the selected row
+					int i = table.getSelectedRow();
+					
+					if(i >= 0) 
+					{
+					   model.setValueAt(txtFName.getText(), i, 0);
+					   model.setValueAt(txtLName.getText(), i, 1);
+					   model.setValueAt(txtAddress.getText(), i, 2);
+					   model.setValueAt(txtContact.getText(), i, 3);
+					   model.setValueAt(txtEmail.getText(), i, 4);
+					   
+						JOptionPane.showMessageDialog(null, "Updated Sucessfully!");
+						txtFName.setText("");
+						txtLName.setText("");
+						txtAddress.setText("");
+						txtContact.setText("");
+						txtEmail.setText("");
+					}
+					else{
+						System.out.println("Update Error");
+					}
+				}
+        });
+        
+           delete.addActionListener(new ActionListener(){
+
+            public void actionPerformed(ActionEvent e) {
+				int response = JOptionPane.showConfirmDialog(null, "Do you want to Delete?", "Delete",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            
+                // i = the index of the selected row
+                if(response == JOptionPane.YES_OPTION){
+                int i = table.getSelectedRow();
+                if(i >= 0){
+                    // remove a row from jtable
+                    model.removeRow(i);
+                    txtFName.setText("");
+					txtLName.setText("");
+					txtAddress.setText("");
+					txtContact.setText("");
+					txtEmail.setText("");
+                }else{
+                    System.out.println("Delete Error");
+                }
+			}
+                
+            }
+        });
+        
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
+		table.setRowSorter(sorter);
+		
+        search.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					String text = txtSearch.getText();
+						if (text.length() == 0) {
+							sorter.setRowFilter(null);
+							JOptionPane.showMessageDialog(null,"Enter First Name to Search!");
+						} else {
+							sorter.setRowFilter(RowFilter.regexFilter(text));
+						}	
+			}
+		});
+		
+				view.addActionListener(new ActionListener() {
+				//@Override
+				public void actionPerformed(ActionEvent e){
+					 sorter.setRowFilter(null);
+				}
+			});
+						
+			
+				
+        
+        	exit.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					System.exit(0);
+			}
+		});
+        
+        
+			
+	}
+	
+}
+
